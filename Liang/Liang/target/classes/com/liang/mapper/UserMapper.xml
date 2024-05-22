@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liang.mapper.UserMapper">
+    <insert id="insert">
+        insert into liang.users(username,password,name) values (#{username},#{password},#{name})
+    </insert>
+    <select id="login" resultType="com.liang.pojo.User">
+        select * from liang.users where username=#{username}
+    </select>
+    <select id="isusername" resultType="com.liang.pojo.User">
+        select * from liang.users where username=#{username}
+    </select>
+    <insert id="addBox">
+        insert into liang.paper(sex,username,area, sign,text,vx) value (#{sex},#{username},#{area},#{sign},#{text},#{vx})
+    </insert>
+        <select id="getBox" resultType="com.liang.pojo.Paper">
+            select * from liang.paper <where>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="sign != null and sign != ''">
+                and sign = #{sign}
+            </if>
+            <if test="owner == null or owner == ''">
+                and owner is null
+            </if>
+        </where> order by rand() limit 1;
+        </select>
+    <select id="findSend" resultType="com.liang.pojo.Paper">
+        select * from liang.paper where username=#{username}
+    </select>
+    <select id="findOwn" resultType="com.liang.pojo.Paper">
+        select * from liang.paper where owner=#{username}
+    </select>
+</mapper>
